@@ -25,40 +25,55 @@ def display_game_state(mistakes, secret_word, guessed_letters):
     print("\n")
 
 
-def play_game():
-    secret_word = get_random_word()
-    guessed_letters = []
-    mistakes = 0
-    max_mistakes = len(STAGES) - 1
+def play_again():
+    # Ask for another round until a valid answer is given.
+    while True:
+        answer = input("Do you want to play again? (y/n): ").lower()
+        if answer == "y":
+            return True
+        if answer == "n":
+            return False
+        print("Please enter y or n.")
 
+
+def play_game():
     print("Welcome to Snowman Meltdown!")
 
     while True:
-        display_game_state(mistakes, secret_word, guessed_letters)
+        secret_word = get_random_word()
+        guessed_letters = []
+        mistakes = 0
+        max_mistakes = len(STAGES) - 1
 
-        # Stop as soon as the word is complete or the snowman has melted.
-        if all(letter in guessed_letters for letter in secret_word):
-            print("You saved the snowman! The word was: " + secret_word)
+        while True:
+            display_game_state(mistakes, secret_word, guessed_letters)
+
+            # Stop as soon as the word is complete or the snowman has melted.
+            if all(letter in guessed_letters for letter in secret_word):
+                print("You saved the snowman! The word was: " + secret_word)
+                break
+            if mistakes >= max_mistakes:
+                print("The snowman melted! The word was: " + secret_word)
+                break
+
+            guess = input("Guess a letter: ").lower()
+
+            # Only a single alphabetical character is accepted.
+            if len(guess) != 1 or not guess.isalpha():
+                print("Please enter a single letter from a to z.")
+                continue
+
+            if guess in guessed_letters:
+                print("You already guessed that letter.")
+                continue
+
+            guessed_letters.append(guess)
+
+            if guess in secret_word:
+                print("Good guess!")
+            else:
+                mistakes += 1
+                print("Wrong guess!")
+
+        if not play_again():
             break
-        if mistakes >= max_mistakes:
-            print("The snowman melted! The word was: " + secret_word)
-            break
-
-        guess = input("Guess a letter: ").lower()
-
-        # Only a single alphabetical character is accepted.
-        if len(guess) != 1 or not guess.isalpha():
-            print("Please enter a single letter from a to z.")
-            continue
-
-        if guess in guessed_letters:
-            print("You already guessed that letter.")
-            continue
-
-        guessed_letters.append(guess)
-
-        if guess in secret_word:
-            print("Good guess!")
-        else:
-            mistakes += 1
-            print("Wrong guess!")
