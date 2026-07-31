@@ -48,8 +48,15 @@ def play_game():
         while True:
             display_game_state(mistakes, secret_word, guessed_letters)
 
+            # Check whether every letter of the word has been guessed.
+            word_complete = True
+            for letter in secret_word:
+                if letter not in guessed_letters:
+                    word_complete = False
+                    break
+
             # Stop as soon as the word is complete or the snowman has melted.
-            if all(letter in guessed_letters for letter in secret_word):
+            if word_complete:
                 print("You saved the snowman! The word was: " + secret_word)
                 break
             if mistakes >= max_mistakes:
