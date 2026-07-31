@@ -12,6 +12,7 @@ def get_random_word():
 
 
 def display_game_state(mistakes, secret_word, guessed_letters):
+    """Displays the snowman stage and the word with underscores."""
     # Display the snowman stage for the current number of mistakes.
     print(STAGES[mistakes])
     # Build a display version of the secret word.
@@ -26,6 +27,7 @@ def display_game_state(mistakes, secret_word, guessed_letters):
 
 
 def play_again():
+    """Asks the user whether another round should be played."""
     # Ask for another round until a valid answer is given.
     while True:
         answer = input("Do you want to play again? (y/n): ").lower()
@@ -37,6 +39,7 @@ def play_again():
 
 
 def play_game():
+    """Runs the game until the user decides to stop."""
     print("Welcome to Snowman Meltdown!")
 
     while True:
